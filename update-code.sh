@@ -11,5 +11,5 @@ echo "Updating base platform dependencies"
 sh ./backoffice_process_manager/platform-installation-script.sh
 
 echo "Updating python dependencies"
-pip-python install -r backoffice_process_manager/requirements.txt
+pip install -r backoffice_process_manager/requirements.txt
 
