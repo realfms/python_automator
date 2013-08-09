@@ -1,5 +1,7 @@
 #/bin/bash
 
+echo  "Installing base platform dependencies!"
+
 yum erase -y ruby rubygems
 sudo rm /usr/bin/gem /usr/bin/ruby
 
@@ -15,3 +17,10 @@ sudo ln -s /usr/bin/ruby1.9 /usr/bin/ruby
 
 sudo gem install foreman
 
+echo  "Installing python automator!"
+
+git clone https://github.com/PDI-DGS-Protolab/python_automator
+
+echo 'export PATH=$PATH:$HOME/python_automator/' >> $HOME/.bashrc
+
+echo  "Installation FINISHED!"
