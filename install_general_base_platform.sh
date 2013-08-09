@@ -1,16 +1,17 @@
 #/bin/bash
 
-sudo yum -y install git, python27, python-pip
+yum erase -y ruby rubygems
+sudo rm /usr/bin/gem /usr/bin/ruby
+
+sudo yum -y install git python27 python-pip
 sudo easy_install virtualenv
 
-sudo yum erase -y ruby18 rubygems18
-sudo yum -y install ruby19
+sudo ln -s /usr/bin/python-pip /usr/bin/pip
 
-yum erase -y ruby rubygems
+sudo yum -y install ruby19
 
 sudo ln -s /usr/bin/gem1.9 /usr/bin/gem
 sudo ln -s /usr/bin/ruby1.9 /usr/bin/ruby
 
 sudo gem install foreman
 
-echo 'alias pip="/usr/bin/pip-python"' >> $HOME/.bashrc
