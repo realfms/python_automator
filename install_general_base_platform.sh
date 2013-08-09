@@ -3,7 +3,7 @@
 sudo yum -y install git, python27, python-pip
 sudo easy_install virtualenv
 
-sudo yum erase -y ruby rubygems
+sudo yum erase -y ruby18 rubygems18
 sudo yum -y install ruby19
 
 yum erase -y ruby rubygems
