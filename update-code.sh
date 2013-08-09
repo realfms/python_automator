@@ -5,11 +5,14 @@ cd backoffice_process_manager
 
 source venv/bin/activate
 
+cd backoffice_process_manager
+
+echo "Updating source code"
 git pull origin automator
 
 echo "Updating base platform dependencies"
-sh ./backoffice_process_manager/system-dependencies.sh
+sh ./system-dependencies.sh
 
 echo "Updating python dependencies"
-pip install -r backoffice_process_manager/requirements.txt
+pip install -r requirements.txt
 
