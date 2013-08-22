@@ -17,4 +17,7 @@ echo "Updating source code"
 git pull origin $BRANCH_NAME
 
 echo "Updating static files cache"
+#FMS - Get it here also to have the env in the project
+getenv.sh
+
 python manage.py collectstatic --noinput
