@@ -5,13 +5,14 @@ echo "Downloading environment"
 CONFIGFILE=".config"
 ENVFILE=".env"
 
-#Check if we have a call parm (should be a .config)
+#Check if we have a call parm (should be a url for the env)
 if [ "$1" != "" ]
 then
-	CONFIGFILE=$1
+	URL=$1
+else
+	URL=`cat $CONFIGFILE`
 fi
 
-url=`cat $CONFIGFILE`
-wget --output-document $ENVFILE $url
+wget --output-document $ENVFILE $URL
 source $ENVFILE
 

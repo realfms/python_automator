@@ -1,0 +1,30 @@
+#!/bin/bash
+
+. getenv.sh > /dev/null 2>&1
+
+STACK_NAME=$1
+heat --os-username $OS_USERNAME --os-password $OS_PASSWORD --os-tenant-name $OS_TENANT_NAME --os-auth-url $OS_AUTH_URL stack-delete $STACK_NAME >/dev/null
+
+#Wait for stack to finish deletion
+echo "Waiting for stack to be deleted"
+ELAPSED=0
+while [[ $? -eq 0 ]]
+do
+	sleep 5
+	let ELAPSED=$ELAPSED+5
+	echo -ne "\r$ELAPSED seconds elapsed"
+	heat stack-show $STACK_NAME | grep "stack_status " | grep DELETE_IN_PROGRESS > /dev/null
+done
+
+echo "."
+
+#Check finish status
+STATUS=$(heat stack-show $STACK_NAME | grep "stack_status " | cut -d '|' -f 3 | tr -d ' ')
+
+if [ "$STATUS" == "DELETE_COMPLETE" -o "$STATUS" == "" ]
+then
+	echo "Stack deleted successfully"
+	exit 0
+fi
+
+echo "ERROR DELETING STACK:$STATUS"
