@@ -41,7 +41,7 @@ do
 
 	#Snapshot instance
 	echo "Saving current instance image with name:$NEW_IMAGE_PREFIX-$INSTANCE"
-	nova --os-auth-url $OS_AUTH_URL --os-tenant-name $OS_TENANT_NAME --os-username $OS_USERNAME --os-password $OS_PASSWORD image-create --poll $INSTANCE_ID $NEW_IMAGE_PREFIX-$INSTANCE
+	nova image-create --poll $INSTANCE_ID $NEW_IMAGE_PREFIX-$INSTANCE
 	IMAGE_LIST="$IMAGE_LIST $NEW_IMAGE_PREFIX-$INSTANCE"
 done
 

@@ -3,7 +3,7 @@
 . getenv.sh > /dev/null 2>&1
 
 STACK_NAME=$1
-heat --os-username $OS_USERNAME --os-password $OS_PASSWORD --os-tenant-name $OS_TENANT_NAME --os-auth-url $OS_AUTH_URL stack-delete $STACK_NAME >/dev/null
+heat stack-delete $STACK_NAME >/dev/null
 
 #Wait for stack to finish deletion
 echo "Waiting for stack to be deleted"

@@ -7,7 +7,7 @@ TIMEOUT=600
 . getenv.sh > /dev/null 2>&1
 
 STACK_NAME="$INSTALL_TEMPLATE$$"
-heat --os-username $OS_USERNAME --os-password $OS_PASSWORD --os-tenant-name $OS_TENANT_NAME --os-auth-url $OS_AUTH_URL stack-create -c $TIMEOUT -r -f $INSTALL_TEMPLATE $STACK_NAME >/dev/null
+heat stack-create -c $TIMEOUT -r -f $INSTALL_TEMPLATE $STACK_NAME >/dev/null
 
 #Wait for stack to finish
 echo "Waiting for stack to complete"

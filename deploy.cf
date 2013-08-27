@@ -24,7 +24,7 @@
   	"WaitHandle" : {
   		"Type" : "AWS::CloudFormation::WaitConditionHandle"
   	},
-
+  	
     "BOServer": {
       "Type": "AWS::EC2::Instance",
       "Metadata" : {
@@ -111,11 +111,15 @@
                                                            "#!/bin/bash -v\n",
                                                            "yum install -y unzip\n",
                                                            "pip install argparse\n",
-                                                           "cfn-init\n",
-                                                           "SIGNALURL=\"",
-                                                           {"Ref" : "WaitHandle"},
-                                                           "\"\n",
-                                                           "cfn-signal -e 0 \"$SIGNALURL\"\n",
+                                                           "function error_exit\n",
+                                                           "{\n",
+                                                           "  cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
+                                                           "  exit 1\n",
+                                                           "}\n",
+                                                           "cfn-init -s ", { "Ref" : "AWS::StackId" }, " -r BOServer ", 
+                                                           "--region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+                                                           
+                                                           "cfn-signal -e 0 -r \"Setup complete\" '", { "Ref" : "WaitHandle" }, "'\n",
                                                            "shutdown -h now\n"
                                                          ]]
         								}
@@ -123,22 +127,7 @@
       }
     },
 
-    "FEServer": {
-        "Type": "AWS::EC2::Instance",
-        "Properties": {
-          "ImageId" : "TDAF-CD-Python27-GIT",
-          "InstanceType" : { "Ref" : "InstanceType" },
-          "SecurityGroups" : [ {"Ref" : "CDDemoSecGroup"} ],
-          "UserData" : { "Fn::Base64" : { "Fn::Join" : ["", [
-                                                             "#!/bin/bash -v\n",
-                                                             "shutdown -h now\n"
-                                                           ]]
-          								}
-          }
-        }
-    },
-
-	"IPAddress" : {"Type" : "AWS::EC2::EIP"},
+    "IPAddress" : {"Type" : "AWS::EC2::EIP"},
 	"IPAssoc" : {
 		"Type" : "AWS::EC2::EIPAssociation",
 		"Properties" : {"InstanceId" : { "Ref" : "BOServer" },"EIP" : { "Ref" : "IPAddress" }}
@@ -160,7 +149,7 @@
 		"Type" : "AWS::CloudFormation::WaitCondition",
 		"Properties" : {
 		"Handle" : { "Ref" : "WaitHandle" },
-		"Timeout" : "600"
+		"Timeout" : "1200"
 		}
 	}
 	
@@ -172,3 +161,4 @@
     }
   }
 }
+
