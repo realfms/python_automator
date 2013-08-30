@@ -1,10 +1,10 @@
 #!/bin/bash
 
-INSTALL_TEMPLATE=deploy.cf
+INSTALL_TEMPLATE=images.cf
 ENVFILE=$(grep -A 5 EnvURL $INSTALL_TEMPLATE | grep Default | head -1 | cut -d ':' -f 2- | cut -d '"' -f 2)
 TIMEOUT=600
 
-. getenv.sh > /dev/null 2>&1
+. getenv.sh $ENVFILE> /dev/null 2>&1
 
 STACK_NAME="$INSTALL_TEMPLATE$$"
 heat stack-create -c $TIMEOUT -r -f $INSTALL_TEMPLATE $STACK_NAME >/dev/null

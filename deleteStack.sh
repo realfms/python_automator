@@ -1,6 +1,11 @@
 #!/bin/bash
 
-. getenv.sh > /dev/null 2>&1
+ENVFILE=".env"
+source $ENVFILE
+export OS_USERNAME
+export OS_TENANT_NAME
+export OS_PASSWORD
+export OS_AUTH_URL
 
 STACK_NAME=$1
 heat stack-delete $STACK_NAME >/dev/null

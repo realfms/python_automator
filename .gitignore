@@ -1,0 +1,4 @@
+*.cf
+.env
+.config
+private
